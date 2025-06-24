@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loan Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: space-between;
+      padding: 2rem;
+      background: #f9f9f9;
+    }
+    .left, .right {
+      width: 48%;
+    }
+    h2 {
+      margin-bottom: 1rem;
+    }
+    .slider-group {
+      margin-bottom: 2rem;
+    }
+    .slider-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .slider-group input[type="range"] {
+      width: 100%;
+    }
+    .slider-value {
+      background: #ddd;
+      padding: 0.5rem;
+      display: inline-block;
+      margin-top: 0.3rem;
+    }
+    .results {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .emi-box {
+      background: #fff3cd;
+      padding: 1rem;
+      font-size: 1.3rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      border: 1px solid #ffeeba;
+    }
+    button {
+      background-color: #f26522;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 25px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    canvas {
+      display: block;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="left">
+    <h2>Select the loan amount range</h2>
+
+    <div class="slider-group">
+      <label>Loan Amount</label>
+      <input type="range" min="0" max="100000000" step="1000000" id="loanAmount" />
+      <div class="slider-value" id="loanValue">160468285</div>
+    </div>
+
+    <div class="slider-group">
+      <label>Illustrative Interest Rate p.a.</label>
+      <input type="range" min="1" max="20" step="0.1" id="interestRate" />
+      <div class="slider-value" id="interestValue">7%</div>
+    </div>
+
+    <div class="slider-group">
+      <label>Tenure ( Months Years )</label>
+      <input type="range" min="1" max="30" step="1" id="tenure" />
+      <div class="slider-value" id="tenureValue">13 years</div>
+    </div>
+  </div>
+
+  <div class="right">
+    <canvas id="loanChart" width="300" height="300"></canvas>
+    <div class="results">
+      <p>Principal amount: ₹160468285</p>
+      <p>Interest amount: ₹146026139</p>
+      <p><strong>Total amount: ₹306494424</strong></p>
+    </div>
+    <div class="emi-box">
+      Your Monthly EMI is ₹1569498.80
+    </div>
+    <button>APPLY FOR HOME LOAN</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const loanSlider = document.getElementById('loanAmount');
+    const interestSlider = document.getElementById('interestRate');
+    const tenureSlider = document.getElementById('tenure');
+
+    const loanValue = document.getElementById('loanValue');
+    const interestValue = document.getElementById('interestValue');
+    const tenureValue = document.getElementById('tenureValue');
+
+    loanSlider.value = 160468285;
+    interestSlider.value = 7;
+    tenureSlider.value = 13;
+
+    loanValue.textContent = loanSlider.value;
+    interestValue.textContent = interestSlider.value + '%';
+    tenureValue.textContent = tenureSlider.value + ' years';
+
+    const ctx = document.getElementById('loanChart').getContext('2d');
+    const loanChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Principal', 'Interest'],
+        datasets: [{
+          data: [160468285, 146026139],
+          backgroundColor: ['#8b0023', '#f26522'],
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            position: 'top',
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
